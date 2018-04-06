@@ -2,7 +2,7 @@
 const router = require('express').Router();
 
 // database
-const actionsDb = require('../data/helpers/actionModel.js');
+const actionsDb = require('../../data/helpers/actionModel.js');
 
 // Endpoints for /api/actions
 

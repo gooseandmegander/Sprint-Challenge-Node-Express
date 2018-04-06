@@ -2,7 +2,7 @@
 const router = require('express').Router();
 
 // database
-const projectsDb = require('../data/helpers/projectModel.js');
+const projectsDb = require('../../data/helpers/projectModel.js');
 
 // Endpoints for /api/projects
 
