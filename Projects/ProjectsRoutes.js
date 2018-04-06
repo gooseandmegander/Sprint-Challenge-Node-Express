@@ -19,6 +19,24 @@ router.get('/', (req, res) => {
     });
 });
 
+// getProjectActions with projectId param
+router.get('/:projectId/actions', (req, res) => {
+  const { projectId } = req.params;
+
+  projectsDb
+    .getProjectActions(projectId)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .json({
+          errorMessage: `Cannot retrieve Project Actions for project with ID ${projectId}`,
+        });
+    });
+});
+
 // get with id param
 router.get('/:id', (req, res) => {
   const { id } = req.params;
