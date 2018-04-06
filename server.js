@@ -1,9 +1,12 @@
 // express
 const express = require('express');
+
+// server
 const server = express();
 const { port } = require('./PortConfig.js');
 
 // require middleware
+const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
@@ -11,7 +14,8 @@ const helmet = require('helmet');
 const projectsRoutes = require('./Routing/ProjectsRoutes/ProjectsRoutes.js');
 const actionsRoutes = require('./Routing/ActionsRoutes/ActionsRoutes.js');
 
-// middleware
+// use middleware
+server.use(cors());
 server.use(morgan('dev')); // logger
 server.use(helmet()); // security
 server.use(express.json()); // parser
