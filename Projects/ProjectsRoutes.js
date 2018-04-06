@@ -25,15 +25,19 @@ router.get('/:projectId/actions', (req, res) => {
 
   projectsDb
     .getProjectActions(projectId)
-    .then((response) => {
-      res.status(200).json(response);
+    .then((projectActions) => {
+      if (projectActions.length > 0) {
+        res.status(200).json(projectActions);
+      } else {
+        res.status(404).json({
+          message: `No Project Actions found with projectId ${projectId}`,
+        });
+      }
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({
-          errorMessage: `Cannot retrieve Project Actions for project with ID ${projectId}`,
-        });
+      res.status(500).json({
+        errorMessage: `Cannot retrieve Project Actions for project with ID ${projectId}`,
+      });
     });
 });
 
@@ -44,7 +48,13 @@ router.get('/:id', (req, res) => {
   projectsDb
     .get(id)
     .then((project) => {
-      res.status(200).json(project);
+      if (project.length > 0) {
+        res.status(200).json(project);
+      } else {
+        res.status(404).json({
+          message: `The project with the given ID ${id} is not found`,
+        });
+      }
     })
     .catch((err) => {
       res
@@ -55,15 +65,26 @@ router.get('/:id', (req, res) => {
 
 // post
 router.post('/', (req, res) => {
-  //   const { name, description, completed } = req.body;
+  const { name, description } = req.body;
   const project = req.body;
 
   // validation
+  if (!name || !description) {
+    res.status(400).json({
+      errorMessage:
+        'Please provide a name, description, and project completion status',
+    });
+  }
+  if (name.length > 128 || description.length > 128) {
+    res.status(400).json({
+      message: 'Name and description must be less than 128 characters',
+    });
+  }
 
   projectsDb
     .insert(project)
     .then((newProject) => {
-      res.status(200).json(newProject);
+      res.status(201).json(newProject);
     })
     .catch((err) => {
       res.status(500).json({ errorMessage: 'Cannot create new project' });
@@ -88,10 +109,22 @@ router.delete('/:id', (req, res) => {
 
 // put
 router.put('/:id', (req, res) => {
+  const { name, description } = req.body;
   const { id } = req.params;
   const changes = req.body;
 
   // validation
+  if (!name || !description) {
+    res.status(400).json({
+      errorMessage:
+        'Please provide a name, description, and project completion status',
+    });
+  }
+  if (name.length > 128 || description.length > 128) {
+    res.status(400).json({
+      message: 'Name and description must be less than 128 characters',
+    });
+  }
 
   projectsDb
     .update(id, changes)
