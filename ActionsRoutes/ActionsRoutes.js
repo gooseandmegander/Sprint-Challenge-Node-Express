@@ -1,6 +1,5 @@
 // express
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 
 // database
 const actionsDb = require('../data/helpers/actionModel.js');
@@ -26,7 +25,13 @@ router.get('/:id', (req, res) => {
   actionsDb
     .get(id)
     .then((action) => {
-      res.status(200).json(action);
+      if (action) {
+        res.status(200).json(action);
+      } else {
+        res
+          .status(404)
+          .json({ message: `The action with the given ID ${id} is not found` });
+      }
     })
     .catch((err) => {
       res
@@ -37,11 +42,22 @@ router.get('/:id', (req, res) => {
 
 // post
 router.post('/', (req, res) => {
-  //   const { notes, description, completed, project_id } = req.body;
+  const { description, project_id } = req.body;
   const action = req.body;
-  console.log(action);
 
   // validation
+  if (!description || !project_id) {
+    res
+      .status(400)
+      .json({ errorMessage: `Please provide a description and project ID.` });
+  }
+  if (description.length > 128) {
+    res.status(400).json({
+      errorMessage: `The description cannot be longer than 128 characters.`,
+    });
+  }
+
+  //  !! how to do validation for project_id?
 
   actionsDb
     .insert(action)
@@ -71,10 +87,23 @@ router.delete('/:id', (req, res) => {
 
 // put
 router.put('/:id', (req, res) => {
+  const { description, project_id } = req.body;
   const { id } = req.params;
   const changes = req.body;
 
   // validation
+  if (!description || !project_id) {
+    res
+      .status(400)
+      .json({ errorMessage: `Please provide a description and project ID.` });
+  }
+  if (description.length > 128) {
+    res.status(400).json({
+      errorMessage: `The description cannot be longer than 128 characters.`,
+    });
+  }
+
+  //  !! how to do validation for project_id?
 
   actionsDb
     .update(id, changes)

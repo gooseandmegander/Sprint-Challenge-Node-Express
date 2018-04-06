@@ -1,6 +1,5 @@
 // express
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 
 // database
 const projectsDb = require('../data/helpers/projectModel.js');
@@ -48,7 +47,7 @@ router.get('/:id', (req, res) => {
   projectsDb
     .get(id)
     .then((project) => {
-      if (project.length > 0) {
+      if (project) {
         res.status(200).json(project);
       } else {
         res.status(404).json({
