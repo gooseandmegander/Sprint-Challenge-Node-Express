@@ -1,28 +1,17 @@
 {
   "name": "sprint-challenge-node-express",
   "version": "1.0.0",
-  "description": "Please open the `Review.md` file and answer the questions.",
-  "main": "knexfile.js",
+  "description": "Node Express Challenge",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gooseandmegander/Sprint-Challenge-Node-Express.git"
-  },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gooseandmegander/Sprint-Challenge-Node-Express/issues"
-  },
-  "homepage": "https://github.com/gooseandmegander/Sprint-Challenge-Node-Express#readme",
   "dependencies": {
     "express": "^4.16.3",
     "helmet": "^3.12.0",
     "knex": "^0.14.4",
     "morgan": "^1.9.0",
     "sqlite3": "^4.0.0"
-  },
-  "devDependencies": {}
+  }
 }
