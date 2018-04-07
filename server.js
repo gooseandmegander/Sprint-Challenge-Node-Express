@@ -11,8 +11,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 
 // routes
-const projectsRoutes = require('./Routing/ProjectsRoutes/ProjectsRoutes.js');
-const actionsRoutes = require('./Routing/ActionsRoutes/ActionsRoutes.js');
+const projectsRoutes = require('./API/ProjectsRoutes/ProjectsRoutes.js');
+const actionsRoutes = require('./API/ActionsRoutes/ActionsRoutes.js');
 
 // use middleware
 server.use(cors());

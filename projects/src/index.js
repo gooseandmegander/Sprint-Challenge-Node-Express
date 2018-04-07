@@ -1,9 +1,13 @@
-// React
+// React and Router
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 // HTTP client
 import axios from 'axios';
+
+// Components
+import Project from './components/Project.js';
 
 // Styling
 import './index.css';
@@ -11,7 +15,7 @@ import './index.css';
 // registerServiceWorker
 import registerServiceWorker from './registerServiceWorker';
 
-class Projects extends React.Component {
+class ProjectsList extends React.Component {
   state = {
     projects: [],
   };
@@ -19,16 +23,20 @@ class Projects extends React.Component {
   render() {
     return (
       <div>
-        <h1>Projects</h1>
+        <h1>
+          <Link to="/">Projects List</Link>
+        </h1>
         {this.state.projects.map((project) => {
           return (
             <ul>
-              <li>Project Name: {project.name}</li>
-              <li>Project Description: {project.description}</li>
-              <li>Project Id: {project.id}</li>
+              <li key={`${project.name} ${project.id}`}>
+                <Link to={`/${project.id}`}>{project.name}</Link>
+              </li>
             </ul>
           );
         })};
+        <hr />
+        <Route exact path="/:id" component={Project} />
       </div>
     );
   } // end render
@@ -47,5 +55,10 @@ class Projects extends React.Component {
   }
 } // end Projects class
 
-ReactDOM.render(<Projects />, document.getElementById('root'));
+ReactDOM.render(
+  <Router>
+    <ProjectsList />
+  </Router>,
+  document.getElementById('root')
+);
 registerServiceWorker();
